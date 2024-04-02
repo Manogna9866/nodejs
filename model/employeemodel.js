@@ -4,31 +4,35 @@ const employee=new mongo.Schema({
     firstname:{
         type:String
     },
-    lastname:{
-        type:String
-    },
-    mobileno:{
-        type:String
-    },
-    emailid:{
-        type:String
-    },
-    dob:{
-        type:String
-    },
-    designation:{
-        type:String
-    },
-    salary:{
-        type:String
-    },
-    address:{
-        type:String
-    },
-    password:{
+    // lastname:{
+    //     type:String
+    // },
+    // mobileno:{
+    //     type:String
+    // },
+    // emailid:{
+    //     type:String
+    // },
+    // dob:{
+    //     type:String
+    // },
+    // designation:{
+    //     type:String
+    // },
+    // salary:{
+    //     type:String
+    // },
+    // address:{
+    //     type:String
+    // },
+    // password:{
+    //     type:String
+    // },
+    photo:{
         type:String
     }
+   
     
-});
+},  {timestamps:true});
 
 module.exports=mongo.model('employees',employee);

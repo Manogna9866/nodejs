@@ -1,26 +1,39 @@
 const express = require('express')
-const admins =require('../model/adminmodel.js')
+const adminModel =require('../model/adminmodel.js')
 const cors=require('cors')
+const jwt=require('jsonwebtoken')
+
+
 let corsOptions={
     origin:['http://localhost:4040']
 }
 const route =express.Router();
 
 route.post('/addadmin',cors(corsOptions),(req,res)=>{
-    const p =new admins(req.body);
-    p.save();
+    const newadmin =new adminModel(req.body);
+    newadmin.save();
     res.status(201).json(p)
 });
 
 
 route.post( '/login',cors(corsOptions), async(req,res) =>{
-    const admin = await admins.findOne(req.body);
-    if(admin){
-      res.status(201).json(admin);
-    }else{
-      res.status(500).json('user login failed'); 
-    }
-  });
+    try{
+      const Admin=await
+      adminModel.findOne({"username":req.body.username,"password":req.body.password})
+      if(!Admin){
+        res.status(404).json('user not found')
+      }
+      
+    
+    const  secretkey='my-secretKey';
+
+    const token =jwt.sign({"username":req.body.username,"password":req.body.password},secretkey,{expiresIn:"2h"})
+    res.status(201).json({Admin,token})
+  } catch(err){
+    res.status(500).json({err:'User login failed'})
+  }
+}) 
+
 // route.put('/updateadmin/:id',cors(corsOptions),async(req,res)=>{
 //     const updateadmins = await admins.findByIdAndUpdate(req.params.id ,{ $set: req.body},{new:true});
 //     res.status(201).json(updateadmins)
